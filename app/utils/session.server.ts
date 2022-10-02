@@ -8,7 +8,12 @@ type LoginForm = {
   password: string;
 };
 
-export async function register({ email, password }: LoginForm) {
+type RegisterForm = {
+  email: string;
+  password: string;
+};
+
+export async function register({ email, password }: RegisterForm) {
   let passwordHash = await bcrypt.hash(password, 10);
   return db.user.create({
     data: { email, password: passwordHash },
@@ -30,7 +35,7 @@ if (!sessionSecret) {
 
 let { getSession, commitSession, destroySession } = createCookieSessionStorage({
   cookie: {
-    name: 'RJ_session',
+    name: 'TJ_SESSION',
     secure: true,
     secrets: [sessionSecret],
     sameSite: 'lax',

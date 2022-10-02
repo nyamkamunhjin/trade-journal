@@ -2,7 +2,8 @@ import { Alert, Button, PasswordInput, TextInput, Title } from '@mantine/core';
 import type { User } from '@prisma/client';
 import type { ActionFunction } from '@remix-run/node';
 import { Form, Link, useActionData } from '@remix-run/react';
-import { login } from '~/utils/session.server';
+import { createUserSession, login } from '~/utils/session.server';
+import { createUser } from '../../models/login.server';
 
 interface ActionData {
   user?: User;
@@ -12,7 +13,7 @@ interface ActionData {
 
 export const action: ActionFunction = async ({
   request,
-}): Promise<ActionData> => {
+}): Promise<ActionData | Response> => {
   let { email, password } = Object.fromEntries(await request.formData());
   console.log({ email, password });
   if (typeof email !== 'string' || typeof password !== 'string') {
@@ -25,7 +26,7 @@ export const action: ActionFunction = async ({
       error: 'Something wrong with login.',
     };
 
-  return { user };
+  return createUserSession(user.id, '/');
 };
 
 export default function Login() {
@@ -53,7 +54,7 @@ export default function Login() {
               error={actionData?.fieldsError?.['password'] || false}
             />
             {actionData?.error && (
-              <Alert title="Bummer!" color="red" withCloseButton>
+              <Alert title="Bummer!" color="red">
                 {actionData.error}
               </Alert>
             )}
@@ -68,4 +69,8 @@ export default function Login() {
       </div>
     </div>
   );
+}
+
+export function ErrorBoundary() {
+  return <div className="error-container">I did a whoopsies.</div>;
 }

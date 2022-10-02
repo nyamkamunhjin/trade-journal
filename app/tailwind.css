@@ -180,6 +180,19 @@
   border-color: rgb(209 213 219 / var(--tw-border-opacity)) !important
 }
 
+.bg-red-400 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(248 113 113 / var(--tw-bg-opacity)) !important
+}
+
+.p-4 {
+  padding: 1rem !important
+}
+
+.p-2 {
+  padding: 0.5rem !important
+}
+
 .p-4 {
   padding: 1rem !important
 }

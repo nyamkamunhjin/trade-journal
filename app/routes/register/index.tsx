@@ -1,6 +1,7 @@
 import { Button, PasswordInput, TextInput, Title } from '@mantine/core';
 import type { User } from '@prisma/client';
-import type { ActionFunction } from '@remix-run/node';
+import type { ActionFunction, TypedResponse } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import { Form, Link } from '@remix-run/react';
 import { register } from '~/utils/session.server';
 
@@ -12,23 +13,31 @@ interface ActionData {
 
 export const action: ActionFunction = async ({
   request,
-}): Promise<ActionData> => {
-  let { email, password } = Object.fromEntries(await request.formData());
-  console.log({ email, password });
-  if (typeof email !== 'string' || typeof password !== 'string') {
+}): Promise<ActionData | TypedResponse<never>> => {
+  let { email, password, confirmPassword } = Object.fromEntries(
+    await request.formData()
+  );
+  if (
+    typeof email !== 'string' ||
+    typeof password !== 'string' ||
+    typeof password !== 'string' ||
+    typeof confirmPassword !== 'string'
+  ) {
     return { error: `Form not submitted correctly.` };
   }
+
+  if (password !== confirmPassword) return { error: `Passwords don't match.` };
 
   const user = await register({ email, password });
   if (!user)
     return {
-      error: 'Something wrong with login.',
+      error: 'Something wrong with signing up.',
     };
 
-  return { user };
+  return redirect('/login');
 };
 
-export default function Login() {
+export default function Register() {
   return (
     <div className="tw-w-full tw-h-full">
       <div className="flex flex-col gap-4 items-center max-w-md p-4">
@@ -45,16 +54,30 @@ export default function Login() {
             <PasswordInput
               placeholder="Password"
               label="Password"
+              name="password"
               description="Password must include at least one letter, number and special character"
               withAsterisk
             />
-            <Button>Sign up</Button>
-            <Link to="/login">
-              <Button variant="outline">Login</Button>
+            <PasswordInput
+              placeholder="Confirm Password"
+              label="Password"
+              name="confirmPassword"
+              description="Please confirm your password"
+              withAsterisk
+            />
+            <Button type="submit">Sign up</Button>
+            <Link to="/login" className="w-full">
+              <Button className="w-full" variant="outline">
+                Login
+              </Button>
             </Link>
           </Form>
         </div>
       </div>
     </div>
   );
+}
+
+export function ErrorBoundary() {
+  return <div className="bg-red-400">I did a whoopsies.</div>;
 }
