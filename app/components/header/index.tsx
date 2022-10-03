@@ -12,11 +12,11 @@ export default function Header({ user }: Props) {
       <Link to="/dashboard">
         <Button variant="subtle">Dashboard</Button>
       </Link>
-      <Link to="/trades-logs">
+      <Link to="/trade-logs">
         <Button variant="subtle">Trade logs</Button>
       </Link>
       <Link to="spotify">
-        <Button variant="subtle">Spotify JAMMER 💿</Button>
+        <Button variant="subtle">Spotify JAMMER 💿 (SOON)</Button>
       </Link>
       {user && (
         <form className="ml-auto" action="/auth/logout" method="post">

@@ -4,7 +4,6 @@ import type {
   MetaFunction,
   TypedResponse,
 } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -20,7 +19,6 @@ import styles from '~/tailwind.css';
 import Layout from './layout';
 import { getUser } from './utils/session.server';
 import type { User } from '@prisma/client';
-import fontStyles from '~/styles/styles.css';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
