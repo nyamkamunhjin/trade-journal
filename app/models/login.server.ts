@@ -1,4 +1,4 @@
-import { db } from '~/utils/db.server';
+import { db } from '~/services/db.server';
 import bcrypt from 'bcryptjs';
 
 export async function createUser(user: { email: string; password: string }) {

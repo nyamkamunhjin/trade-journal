@@ -1,7 +1,7 @@
 import type { LoaderArgs, TypedResponse } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
-import { Outlet, useLoaderData } from '@remix-run/react';
-import { getUser } from '~/utils/session.server';
+import { Outlet } from '@remix-run/react';
+import { getUser } from '~/services/session/session.server';
 
 type LoaderData = {
   user: Awaited<ReturnType<typeof getUser>>;

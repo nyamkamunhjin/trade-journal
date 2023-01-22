@@ -17,7 +17,7 @@ import { MantineProvider, createEmotionCache } from '@mantine/core';
 import { StylesPlaceholder } from '@mantine/remix';
 import styles from '~/tailwind.css';
 import Layout from './layout';
-import { getUser } from './utils/session.server';
+import { getUser } from './services/session/session.server';
 import type { User } from '@prisma/client';
 
 export const links: LinksFunction = () => [

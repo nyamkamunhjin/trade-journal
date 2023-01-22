@@ -26,6 +26,7 @@ model TradeLog {
   date          DateTime
   pair          String
   risk          Float
+  riskRatio     Float
   note          String
   side          TradeSide
   screenshotUrl String?

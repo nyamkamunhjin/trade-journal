@@ -1,41 +1,7 @@
 import { Button, PasswordInput, TextInput, Title } from '@mantine/core';
-import type { User } from '@prisma/client';
-import type { ActionFunction, TypedResponse } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
 import { Form, Link } from '@remix-run/react';
-import { register } from '~/utils/session.server';
 
-interface ActionData {
-  user?: User;
-  fieldsError?: { [key: string]: string };
-  error?: string;
-}
-
-export const action: ActionFunction = async ({
-  request,
-}): Promise<ActionData | TypedResponse<never>> => {
-  let { email, password, confirmPassword } = Object.fromEntries(
-    await request.formData()
-  );
-  if (
-    typeof email !== 'string' ||
-    typeof password !== 'string' ||
-    typeof password !== 'string' ||
-    typeof confirmPassword !== 'string'
-  ) {
-    return { error: `Form not submitted correctly.` };
-  }
-
-  if (password !== confirmPassword) return { error: `Passwords don't match.` };
-
-  const user = await register({ email, password });
-  if (!user)
-    return {
-      error: 'Something wrong with signing up.',
-    };
-
-  return redirect('/auth/login');
-};
+export { action } from './.action'
 
 export default function Register() {
   return (

@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { createCookieSessionStorage, redirect } from '@remix-run/node';
 
-import { db } from './db.server';
+import { db } from '../database/db.server';
 
 type LoginForm = {
   email: string;
@@ -29,6 +29,7 @@ export async function login({ email, password }: LoginForm) {
 }
 
 let sessionSecret = process.env.SESSION_SECRET;
+
 if (!sessionSecret) {
   throw new Error('SESSION_SECRET must be set');
 }
